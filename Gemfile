@@ -1,4 +1,3 @@
-source "http://rubygems.org"
+source :rubygems
 
-# Specify your gem's dependencies in acts_as_list-rails3.gemspec
 gemspec

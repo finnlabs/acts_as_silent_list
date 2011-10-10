@@ -42,7 +42,7 @@ class Mixin < ActiveRecord::Base
 end
 
 class ListMixin < Mixin
-  acts_as_list :column => "pos", :scope => :parent
+  acts_as_silent_list :column => "pos", :scope => :parent
 
   def self.table_name() "mixins" end
 end
@@ -54,26 +54,26 @@ class ListMixinSub2 < ListMixin
 end
 
 class ListWithStringScopeMixin < ActiveRecord::Base
-  acts_as_list :column => "pos", :scope => 'parent_id = #{parent_id}'
+  acts_as_silent_list :column => "pos", :scope => 'parent_id = #{parent_id}'
 
   def self.table_name() "mixins" end
 end
 
 class ArrayScopeListMixin < Mixin
-  acts_as_list :column => "pos", :scope => [:parent_id, :parent_type]
+  acts_as_silent_list :column => "pos", :scope => [:parent_id, :parent_type]
 
   def self.table_name() "mixins" end
 end
 
 class ZeroBasedMixin < ActiveRecord::Base
-  acts_as_list :column => "pos", :top_of_list => 0, :scope => [:parent_id]
+  acts_as_silent_list :column => "pos", :top_of_list => 0, :scope => [:parent_id]
 
   def self.table_name() "mixins" end
 end
 
 class DefaultScopedMixin < ActiveRecord::Base
   set_table_name 'mixins'
-  acts_as_list :column => "pos"
+  acts_as_silent_list :column => "pos"
   default_scope order('pos ASC')
 end
 

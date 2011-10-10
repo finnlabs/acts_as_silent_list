@@ -81,6 +81,24 @@ class DefaultScopedMixin < ActiveRecord::Base
   end
 end
 
+class CallbackMixin < ActiveRecord::Base
+  set_table_name 'mixins'
+  acts_as_silent_list :column => "pos"
+
+  before_save :store_before_save
+  after_save  :store_after_save
+
+  attr_reader :after_save_called, :before_save_called
+
+  def store_after_save
+    $after_save_called = true
+  end
+
+  def store_before_save
+    $before_save_called = true
+  end
+end
+
 class ZeroBasedTest < Test::Unit::TestCase
    def setup
     setup_db
@@ -1341,5 +1359,47 @@ class DefaultScopedTest < Test::Unit::TestCase
 
     new4.reload
     assert_equal 4, new4.pos
+  end
+end
+
+class CallbackTest < Test::Unit::TestCase
+  def setup
+    $after_save_called  = nil
+    $before_save_called = nil
+    setup_db
+    (1..4).each { |counter| DefaultScopedMixin.create! :pos => counter }
+  end
+
+  def teardown
+    teardown_db
+  end
+
+  def test_position_is_updated_within_object
+    @item = CallbackMixin.first
+    @item.move_to_bottom
+
+    assert_equal 4, @item.pos
+  end
+
+  def test_object_is_not_marked_dirty
+    @item = CallbackMixin.first
+    @item.move_to_bottom
+
+    assert !@item.changed?
+    assert_nil   @item.pos_change
+  end
+
+  def test_position_update_does_not_trigger_before_save_callback
+    @item = CallbackMixin.first
+    @item.move_to_bottom
+
+    assert_nil $before_save_called
+  end
+
+  def test_position_update_does_not_trigger_after_save_callback
+    @item = CallbackMixin.first
+    @item.move_to_bottom
+
+    assert_nil $after_save_called
   end
 end

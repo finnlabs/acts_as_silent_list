@@ -1,0 +1,4 @@
+= 1.0.0 - Initial Release
+
+This gem is based on acts_as_list, while it tries to avoid triggering
+ActiveRecord callbacks.

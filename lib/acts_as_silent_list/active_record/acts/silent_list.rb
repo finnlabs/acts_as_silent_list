@@ -76,6 +76,11 @@ module ActiveRecord
 
             before_destroy :decrement_positions_on_lower_items
             before_create  :add_to_list_bottom
+
+            def self.unscoped
+              raise NotImplementedError, "This is just a stub implementation, update to Rails 3 to get the whole thing." unless block_given?
+              with_exclusive_scope { yield }
+            end unless defined? unscoped
           EOV
         end
       end
@@ -222,7 +227,9 @@ module ActiveRecord
           def bottom_item(except = nil)
             conditions = scope_condition
             conditions = "#{conditions} AND #{self.class.primary_key} != #{except.id}" if except
-            acts_as_silent_list_class.unscoped.find(:first, :conditions => conditions, :order => "#{position_column} DESC")
+            acts_as_silent_list_class.unscoped do
+              acts_as_silent_list_class.find(:first, :conditions => conditions, :order => "#{position_column} DESC")
+            end
           end
 
           # Forces item to assume the bottom position in the list.

@@ -74,7 +74,11 @@ end
 class DefaultScopedMixin < ActiveRecord::Base
   set_table_name 'mixins'
   acts_as_silent_list :column => "pos"
-  default_scope order('pos ASC')
+  if rails_3
+    default_scope order('pos ASC')
+  else
+    default_scope :order => 'pos ASC'
+  end
 end
 
 class ZeroBasedTest < Test::Unit::TestCase
@@ -1338,5 +1342,4 @@ class DefaultScopedTest < Test::Unit::TestCase
     new4.reload
     assert_equal 4, new4.pos
   end
-
 end

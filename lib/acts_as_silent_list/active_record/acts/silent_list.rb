@@ -5,9 +5,10 @@ module ActiveRecord
         base.extend(ClassMethods)
       end
 
-      # This +acts_as+ extension provides the capabilities for sorting and reordering a number of objects in a list.
-      # The class that has this specified needs to have a +position+ column defined as an integer on
-      # the mapped database table.
+      # This +acts_as+ extension provides the capabilities for sorting and
+      # reordering a number of objects in a list.  The class that has this
+      # specified needs to have a +position+ column defined as an integer on the
+      # mapped database table.
       #
       # Todo list example:
       #
@@ -25,13 +26,17 @@ module ActiveRecord
       module ClassMethods
         # Configuration options are:
         #
-        # * +column+ - specifies the column name to use for keeping the position integer (default: +position+)
-        # * +scope+ - restricts what is to be considered a list. Given a symbol, it'll attach <tt>_id</tt>
-        #   (if it hasn't already been added) and use that as the foreign key restriction. It's also possible
-        #   to give it an entire string that is interpolated if you need a tighter scope than just a foreign key.
-        #   Example: <tt>acts_as_silent_list :scope => 'todo_list_id = #{todo_list_id} AND completed = 0'</tt>
-        # * +top_of_list+ - defines the integer used for the top of the list. Defaults to 1. Use 0 to make the collection
-        #   act more like an array in its indexing.
+        # * +column+ - specifies the column name to use for keeping the position
+        #   integer (default: +position+)
+        # * +scope+ - restricts what is to be considered a list. Given a symbol,
+        #   it'll attach <tt>_id</tt> (if it hasn't already been added) and use
+        #   that as the foreign key restriction. It's also possible to give it
+        #   an entire string that is interpolated if you need a tighter scope
+        #   than just a foreign key.  Example: <tt>acts_as_silent_list :scope =>
+        #   'todo_list_id = #{todo_list_id} AND completed = 0'</tt>
+        # * +top_of_list+ - defines the integer used for the top of the list.
+        #   Defaults to 1. Use 0 to make the collection act more like an array
+        #   in its indexing.
         def acts_as_silent_list(options = {})
           configuration = { :column => "position", :scope => "1 = 1", :top_of_list => 1}
           configuration.update(options) if options.is_a?(Hash)
@@ -85,12 +90,15 @@ module ActiveRecord
         end
       end
 
-      # All the methods available to a record that has had <tt>acts_as_silent_list</tt> specified. Each method works
-      # by assuming the object to be the item in the list, so <tt>chapter.move_lower</tt> would move that chapter
-      # lower in the list of all chapters. Likewise, <tt>chapter.first?</tt> would return +true+ if that chapter is
-      # the first in the list of all chapters.
+      # All the methods available to a record that has had
+      # <tt>acts_as_silent_list</tt> specified. Each method works by assuming
+      # the object to be the item in the list, so <tt>chapter.move_lower</tt>
+      # would move that chapter lower in the list of all chapters. Likewise,
+      # <tt>chapter.first?</tt> would return +true+ if that chapter is the first
+      # in the list of all chapters.
       module InstanceMethods
-        # Insert the item at the given position (defaults to the top position of 1).
+        # Insert the item at the given position
+        # (defaults to the top position of 1).
         def insert_at(position = acts_as_silent_list_top)
           insert_at_position(position)
         end
@@ -115,8 +123,8 @@ module ActiveRecord
           end
         end
 
-        # Move to the bottom of the list. If the item is already in the list, the items below it have their
-        # position adjusted accordingly.
+        # Move to the bottom of the list. If the item is already in the list,
+        # the items below it have their position adjusted accordingly.
         def move_to_bottom
           return unless in_list?
           acts_as_silent_list_class.transaction do
@@ -125,8 +133,8 @@ module ActiveRecord
           end
         end
 
-        # Move to the top of the list. If the item is already in the list, the items above it have their
-        # position adjusted accordingly.
+        # Move to the top of the list. If the item is already in the list, the
+        # items above it have their position adjusted accordingly.
         def move_to_top
           return unless in_list?
           acts_as_silent_list_class.transaction do
@@ -143,13 +151,15 @@ module ActiveRecord
           end
         end
 
-        # Increase the position of this item without adjusting the rest of the list.
+        # Increase the position of this item without adjusting the rest of the
+        # list.
         def increment_position
           return unless in_list?
           update_attribute_silently(position_column, self.send(position_column).to_i + 1)
         end
 
-        # Decrease the position of this item without adjusting the rest of the list.
+        # Decrease the position of this item without adjusting the rest of the
+        # list.
         def decrement_position
           return unless in_list?
           update_attribute_silently(position_column, self.send(position_column).to_i - 1)
@@ -272,7 +282,8 @@ module ActiveRecord
            )
           end
 
-          # Increments position (<tt>position_column</tt>) of all items in the list.
+          # Increments position (<tt>position_column</tt>) of all items in the
+          # list.
           def increment_positions_on_all_items
             acts_as_silent_list_class.update_all(
               "#{position_column} = (#{position_column} + 1)",  "#{scope_condition}"
@@ -285,7 +296,8 @@ module ActiveRecord
             update_attribute_silently(position_column, position)
           end
 
-          # used by insert_at_position instead of remove_from_list, as postgresql raises error if position_column has non-null constraint
+          # used by insert_at_position instead of remove_from_list, as
+          # postgresql raises error if position_column has non-null constraint
           def store_at_0
             if in_list?
               decrement_positions_on_lower_items

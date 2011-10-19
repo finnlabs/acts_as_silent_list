@@ -147,7 +147,7 @@ module ActiveRecord
         def remove_from_list
           if in_list?
             decrement_positions_on_lower_items
-            update_attribute_silently(position_column, nil)
+            assume_not_in_list
           end
         end
 
@@ -253,6 +253,11 @@ module ActiveRecord
           # Forces item to assume the top position in the list.
           def assume_top_position
             update_attribute_silently(position_column, acts_as_silent_list_top)
+          end
+
+          # Force item to assume no position in the list.
+          def assume_not_in_list
+            update_attribute_silently(position_column, nil)
           end
 
           # This has the effect of moving all the higher items up one.

@@ -1,3 +1,10 @@
+= 1.1.0 - 2011-10-19
+
+== Features
+
+* adding private method to remove an item from a list without touching the other list elements.
+
+
 = 1.0.0 - Initial Release
 
 This gem is based on acts_as_list, while it tries to avoid triggering

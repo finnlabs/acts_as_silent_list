@@ -416,6 +416,24 @@ class ListTest < Test::Unit::TestCase
 
     assert_equal [5, 1, 6, 2, 3, 4], ListMixin.find(:all, :conditions => 'parent_id = 5', :order => 'pos').map(&:id)
   end
+
+  def test_insert_at_top
+    new = ListMixin.create(:parent_id => 5)
+
+    new.insert_at_top
+
+    assert new.first?
+    assert_equal [5, 1, 2, 3, 4], ListMixin.find(:all, :conditions => 'parent_id = 5', :order => 'pos').map(&:id)
+  end
+
+  def test_insert_at_bottom
+    new = ListMixin.create(:parent_id => 5)
+
+    new.insert_at_bottom
+
+    assert new.last?
+    assert_equal [1, 2, 3, 4, 5], ListMixin.find(:all, :conditions => 'parent_id = 5', :order => 'pos').map(&:id)
+  end
 end
 
 class ListSubTest < Test::Unit::TestCase

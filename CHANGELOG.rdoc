@@ -1,3 +1,9 @@
+= 1.2.0 - 2011-10-26
+
+== Features
+
+* adding insert_at_top and insert_at_bottom
+
 = 1.1.0 - 2011-10-19
 
 == Features

@@ -97,6 +97,20 @@ module ActiveRecord
       # <tt>chapter.first?</tt> would return +true+ if that chapter is the first
       # in the list of all chapters.
       module InstanceMethods
+        # Insert the item at the top of the list
+        #
+        # N.B.: This method is not part of the acts_as_list API
+        def insert_at_top
+          insert_at
+        end
+
+        # Insert the item at the bottom of the list
+        #
+        # N.B.: This method is not part of the acts_as_list API
+        def insert_at_bottom
+          assume_bottom_position
+        end
+
         # Insert the item at the given position
         # (defaults to the top position of 1).
         def insert_at(position = acts_as_silent_list_top)

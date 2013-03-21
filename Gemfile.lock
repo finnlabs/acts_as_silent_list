@@ -40,7 +40,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (>= 1.15.4.7794)
+  activerecord (= 4.0.0.beta1)
   acts_as_silent_list!
   bundler (>= 1.0.0)
   rake

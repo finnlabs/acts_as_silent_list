@@ -37,7 +37,12 @@ end
 
 # Returns true if ActiveRecord is rails3 version
 def rails_3
-  defined?(ActiveRecord::VERSION) && ActiveRecord::VERSION::MAJOR >= 3
+  defined?(ActiveRecord::VERSION) && ActiveRecord::VERSION::MAJOR >= 3 && ActiveRecord::VERSION::MAJOR < 4
+end
+
+# Returns true if ActiveRecord is rails4 version
+def rails_4_or_above
+  defined?(ActiveRecord::VERSION) && ActiveRecord::VERSION::MAJOR >= 4
 end
 
 def teardown_db
@@ -80,7 +85,7 @@ class ZeroBasedMixin < ActiveRecord::Base
 end
 
 class DefaultScopedMixin < ActiveRecord::Base
-  set_table_name 'mixins'
+  self.table_name = 'mixins'
   acts_as_silent_list :column => "pos"
   if rails_3
     default_scope order('pos ASC')
@@ -90,7 +95,7 @@ class DefaultScopedMixin < ActiveRecord::Base
 end
 
 class CallbackMixin < ActiveRecord::Base
-  set_table_name 'mixins'
+  self.table_name = 'mixins'
   acts_as_silent_list :column => "pos"
 
   before_save :store_before_save
@@ -382,8 +387,15 @@ class ListTest < Test::Unit::TestCase
     list = ListMixin.find(2)
     if list.respond_to?(:run_callbacks)
       # Refactored to work according to Rails3 ActiveRSupport Callbacks <http://api.rubyonrails.org/classes/ActiveSupport/Callbacks.html>
-      list.run_callbacks :destroy, :before if rails_3
-      list.run_callbacks(:before_destroy) if !rails_3
+      #list.run_callbacks :destroy, :before if rails_3
+      #again refactored to also work with rails4 which does not allow to pick only before callbacks for firing
+      if rails_3
+        list.run_callbacks :destroy, :before
+      elsif rails_4_or_above
+        list.run_callbacks :destroy
+      else
+        list.run_callbacks :before_destroy
+      end
     else
       list.send(:callback, :before_destroy)
     end
@@ -746,26 +758,26 @@ class ZeroBasedTestWithDefault < Test::Unit::TestCase
     assert new.last?
   end
 
-  def test_reordering
-    assert_equal [1, 2, 3, 4], ZeroBasedMixin.find(:all, :conditions => 'parent_id = 5', :order => 'pos').map(&:id)
+   def test_reordering
+    assert_equal [1, 2, 3, 4], ZeroBasedMixin.where(parent_id: 5).order(:pos).map(&:id)
 
     ListMixin.find(2).move_lower
-    assert_equal [1, 3, 2, 4], ZeroBasedMixin.find(:all, :conditions => 'parent_id = 5', :order => 'pos').map(&:id)
+    assert_equal [1, 3, 2, 4], ZeroBasedMixin.where(parent_id: 5).order(:pos).map(&:id)
 
     ListMixin.find(2).move_higher
-    assert_equal [1, 2, 3, 4], ZeroBasedMixin.find(:all, :conditions => 'parent_id = 5', :order => 'pos').map(&:id)
+    assert_equal [1, 2, 3, 4], ZeroBasedMixin.where(parent_id: 5).order(:pos).map(&:id)
 
     ListMixin.find(1).move_to_bottom
-    assert_equal [2, 3, 4, 1], ZeroBasedMixin.find(:all, :conditions => 'parent_id = 5', :order => 'pos').map(&:id)
+    assert_equal [2, 3, 4, 1], ZeroBasedMixin.where(parent_id: 5).order(:pos).map(&:id)
 
     ListMixin.find(1).move_to_top
-    assert_equal [1, 2, 3, 4], ZeroBasedMixin.find(:all, :conditions => 'parent_id = 5', :order => 'pos').map(&:id)
+    assert_equal [1, 2, 3, 4], ZeroBasedMixin.where(parent_id: 5).order(:pos).map(&:id)
 
     ListMixin.find(2).move_to_bottom
-    assert_equal [1, 3, 4, 2], ZeroBasedMixin.find(:all, :conditions => 'parent_id = 5', :order => 'pos').map(&:id)
+    assert_equal [1, 3, 4, 2], ZeroBasedMixin.where(parent_id: 5).order(:pos).map(&:id)
 
     ListMixin.find(4).move_to_top
-    assert_equal [4, 1, 3, 2], ZeroBasedMixin.find(:all, :conditions => 'parent_id = 5', :order => 'pos').map(&:id)
+    assert_equal [4, 1, 3, 2], ZeroBasedMixin.where(parent_id: 5).order(:pos).map(&:id)
   end
 
   def test_insert_at
@@ -989,8 +1001,14 @@ class ListTestWithDefault < Test::Unit::TestCase
     list = ListMixin.find(2)
     if list.respond_to?(:run_callbacks)
       # Refactored to work according to Rails3 ActiveRSupport Callbacks <http://api.rubyonrails.org/classes/ActiveSupport/Callbacks.html>
-      list.run_callbacks :destroy, :before if rails_3
-      list.run_callbacks(:before_destroy) if !rails_3
+      #again refactored to also work with rails4 which does not allow to pick only before callbacks for firing
+      if rails_3
+        list.run_callbacks :destroy, :before
+      elsif rails_4_or_above
+        list.run_callbacks :destroy
+      else
+        list.run_callbacks :before_destroy
+      end
     else
       list.send(:callback, :before_destroy)
     end

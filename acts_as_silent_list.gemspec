@@ -7,7 +7,7 @@ require "acts_as_silent_list/version"
 Gem::Specification.new do |s|
   s.name        = "acts_as_silent_list"
   s.version     = ActiveRecord::Acts::SilentList::VERSION
-  s.authors     = ['David Heinemeier Hansson', 'Swanand Pagnis', 'Quinn Chaffee', 'Gregor Schmidt']
+  s.authors     = ['David Heinemeier Hansson', 'Swanand Pagnis', 'Quinn Chaffee', 'Gregor Schmidt', 'Sebastian Schuster']
   s.email       = ["test@finn.de"]
   s.homepage    = "http://www.finn.de/"
   s.summary     = %q{A gem allowing a active_record model to be ordered, without triggering active record callbacks.}
@@ -25,8 +25,9 @@ Gem::Specification.new do |s|
 
   # Dependencies (installed via 'bundle install')...
   s.add_development_dependency("bundler", [">= 1.0.0"]) #TODO: replaced ~> with >=
-  #s.add_development_dependency("activerecord", [">= 1.15.4.7794"])
-  s.add_development_dependency("activerecord", ["= 4.0.0.beta1"])
+  s.add_development_dependency("activerecord", [">= 1.15.4.7794"])
+  s.add_development_dependency("activerecord", ["<= 3.3.0"])
+  #s.add_development_dependency("activerecord", ["= 4.0.0.beta1"])
   s.add_development_dependency("rake")
   s.add_development_dependency("rdoc")
   s.add_development_dependency("sqlite3")

@@ -33,6 +33,5 @@
 
 require 'test/unit'
 require 'active_record'
-require "#{File.dirname(__FILE__)}/../lib/acts_as_silent_list/engine"
-#require "#{File.dirname(__FILE__)}/../init"
+require "#{File.dirname(__FILE__)}/../init"
 

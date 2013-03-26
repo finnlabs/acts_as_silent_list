@@ -1,31 +1,31 @@
-require 'bundler'
-Bundler::GemHelper.install_tasks
-
-#require 'rake'
-require 'rake/testtask'
-
-# Run the test with 'rake' or 'rake test'
-desc 'Default: run acts_as_silent_list unit tests.'
-task :default => :test
-
-desc 'Test the acts_as_silent_list plugin.'
-Rake::TestTask.new(:test) do |t|
-  t.libs << 'lib' << 'test'
-  t.pattern = 'test/**/test_*.rb'
-  t.verbose = true
+begin
+  require 'bundler/setup'
+rescue LoadError
+  puts 'You must `gem install bundler` and `bundle install` to run rake tasks'
 end
 
-
-
-# Run the rdoc task to generate rdocs for this gem
 require 'rdoc/task'
-RDoc::Task.new do |rdoc|
-  require "acts_as_silent_list/version"
-  version = ActiveRecord::Acts::SilentList::VERSION
 
+RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "acts_as_silent_list #{version}"
-  rdoc.rdoc_files.include('README*')
+  rdoc.title    = 'ActsAsSilentList'
+  rdoc.options << '--line-numbers'
+  rdoc.rdoc_files.include('README.rdoc')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
+
+Bundler::GemHelper.install_tasks
+
+require 'rake/testtask'
+
+desc 'Test the acts_as_silent_list plugin.'
+Rake::TestTask.new(:test) do |t|
+  t.libs << 'lib'
+  t.libs << 'test'
+  t.pattern = 'test/**/*_test.rb'
+  t.verbose = true
+end
+
+desc 'Default: run acts_as_silent_list unit tests.'
+task default: :test

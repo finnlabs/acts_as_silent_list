@@ -19,8 +19,6 @@ Bundler::GemHelper.install_tasks
 
 require 'rake/testtask'
 
-desc 'Default: run acts_as_silent_list unit tests.'
-
 desc 'Test the acts_as_silent_list plugin.'
 Rake::TestTask.new(:test) do |t|
   t.libs << 'lib'
@@ -29,4 +27,5 @@ Rake::TestTask.new(:test) do |t|
   t.verbose = true
 end
 
+desc 'Default: run acts_as_silent_list unit tests.'
 task default: :test

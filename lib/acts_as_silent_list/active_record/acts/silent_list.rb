@@ -17,7 +17,7 @@ module ActiveRecord
       #   end
       #
       #   class TodoItem < ActiveRecord::Base
-      #     belongs_to :todo_list730845
+      #     belongs_to :todo_list
       #     acts_as_silent_list :scope => :todo_list
       #   end
       #

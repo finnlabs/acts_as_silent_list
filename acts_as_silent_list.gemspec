@@ -14,9 +14,8 @@ Gem::Specification.new do |s|
   s.description = %q{This "acts_as" extension is a clone of the well known acts_as_list, only it avoids triggering active record callbacks.}
 
   # Load Paths...
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  s.files         = Dir.glob('lib/**/*') + %w(init.rb MIT-LICENSE README.rdoc)
+  s.test_files    = Dir.glob('test/**/*')
   s.require_paths = ['lib']
 
   # Dependencies (installed via 'bundle install')...

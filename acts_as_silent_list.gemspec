@@ -7,9 +7,9 @@ require "acts_as_silent_list/version"
 Gem::Specification.new do |s|
   s.name        = "acts_as_silent_list"
   s.version     = ActiveRecord::Acts::SilentList::VERSION
-  s.authors     = ['David Heinemeier Hansson', 'Swanand Pagnis', 'Quinn Chaffee', 'Finn GmbH']
-  s.email       = ["info@finn.de"]
-  s.homepage    = "http://www.finn.de/"
+  s.authors     = ['David Heinemeier Hansson', 'Swanand Pagnis', 'Quinn Chaffee', 'OpenProject GmbH']
+  s.email       = ["info@openproject.com"]
+  s.homepage    = "http://www.openproject.com"
   s.summary     = %q{A gem allowing a active_record model to be ordered, without triggering active record callbacks.}
   s.description = %q{This "acts_as" extension is a clone of the well known acts_as_list, only it avoids triggering active record callbacks.}
 
@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   # Dependencies (installed via 'bundle install')...
   s.add_development_dependency("bundler", [">= 1.0.0"])
-  s.add_development_dependency("activerecord", [">= 1.15.4.7794"])
+  s.add_development_dependency("activerecord", [">= 4.2.4"])
   s.add_development_dependency("rake")
   s.add_development_dependency("rdoc")
   s.add_development_dependency("sqlite3")

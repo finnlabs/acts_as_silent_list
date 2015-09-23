@@ -1,40 +1,47 @@
 PATH
   remote: .
   specs:
-    acts_as_silent_list (1.3.0)
+    acts_as_silent_list (2.0.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (3.2.13)
-      activesupport (= 3.2.13)
-      builder (~> 3.0.0)
-    activerecord (3.2.13)
-      activemodel (= 3.2.13)
-      activesupport (= 3.2.13)
-      arel (~> 3.0.2)
-      tzinfo (~> 0.3.29)
-    activesupport (3.2.13)
-      i18n (= 0.6.1)
-      multi_json (~> 1.0)
-    arel (3.0.2)
-    builder (3.0.4)
-    i18n (0.6.1)
+    activemodel (4.2.4)
+      activesupport (= 4.2.4)
+      builder (~> 3.1)
+    activerecord (4.2.4)
+      activemodel (= 4.2.4)
+      activesupport (= 4.2.4)
+      arel (~> 6.0)
+    activesupport (4.2.4)
+      i18n (~> 0.7)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.3, >= 0.3.4)
+      tzinfo (~> 1.1)
+    arel (6.0.3)
+    builder (3.2.2)
+    i18n (0.7.0)
     json (1.7.7)
-    multi_json (1.7.2)
+    minitest (5.8.0)
     rake (10.0.4)
     rdoc (4.0.0)
       json (~> 1.4)
     sqlite3 (1.3.7)
-    tzinfo (0.3.37)
+    thread_safe (0.3.5)
+    tzinfo (1.2.2)
+      thread_safe (~> 0.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord (>= 1.15.4.7794)
+  activerecord (>= 4.2.4)
   acts_as_silent_list!
   bundler (>= 1.0.0)
   rake
   rdoc
   sqlite3
+
+BUNDLED WITH
+   1.10.6

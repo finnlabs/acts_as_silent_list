@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   # Dependencies (installed via 'bundle install')...
   s.add_development_dependency("bundler", [">= 1.0.0"])
-  s.add_development_dependency("activerecord", [">= 4.2.4"])
+  s.add_development_dependency("activerecord", [">= 5.0.0"])
   s.add_development_dependency("rake")
   s.add_development_dependency("rdoc")
   s.add_development_dependency("sqlite3")

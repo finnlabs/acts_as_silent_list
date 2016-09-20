@@ -332,7 +332,7 @@ module ActiveRecord
               write_attribute_without_dirty(attr, value)
             else
               write_attribute(attr, value)
-              clear_attribute_changes(attr)
+              clear_attribute_changes([attr])
             end
             self.class.where({:id => id}).update_all({attr => value})
           end
